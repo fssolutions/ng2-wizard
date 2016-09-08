@@ -1,0 +1,32 @@
+{
+  "name": "ng2-wizard",
+  "version": "1.0.3",
+  "description": "Component wizard to angular 2",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@angular/core": "^2.0.0-rc.1",
+    "rxjs": "^5.0.0-beta.6",
+    "typescript": "^1.8.10",
+    "typings": "^1.3.1",
+    "zone.js": "^0.6.12"
+  },
+  "scripts": {
+    "prepublish": "tsc",
+    "pubtest": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fssolutions/ng2-wizard.git"
+  },
+  "keywords": [
+    "angular2",
+    "wizard"
+  ],
+  "author": "fssolutions",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fssolutions/ng2-wizard/issues"
+  },
+  "homepage": "https://github.com/fssolutions/ng2-wizard#readme"
+}

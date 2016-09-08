@@ -1,4 +1,4 @@
-# ng2-wizard
+ [![npm version](https://badge.fury.io/js/ng2-wizard.svg)](https://badge.fury.io/js/ng2-wizard)
 
 # WizardComponent
 @version 1.0.3.0
@@ -21,7 +21,7 @@ Component Wizard(step to step with tabs) for Angular 2.
 ### TypeScript (.ts)
 Import WizardComponent and WizardStepComponent
 ```
- import { WizardComponent, WizardStepComponent } from './your/path/wizard.component';
+ import { WizardComponent, WizardStepComponent } from 'ng2-wizard';
 ```
 
 Add in your directives
