@@ -175,16 +175,13 @@ export class WizardStepComponent implements AfterViewInit {
 			right: -10px;
 			top: 5px;
 			-webkit-transform: rotate(45deg);
-		}        
+		}
     `],
     encapsulation: ViewEncapsulation.None,
-    properties: [
-        'currentIndex'
-    ],
     template: `
     <div class='wizard' [class.wizard-portrait]="(defaults.orientation == 'portrait')">
         <nav *ngIf="!defaults.hiddentabs">
-            <label *ngFor="let ws of wizardSteps; let i = index" [ngClass]="{enable: !defaults.disabletabs && !inArray(defaults.disablesteps, i), disabled: inArray(defaults.disablesteps, i), active: ws.isActive}" (click)="setPanel(i, true)" [innerHTML]="ws.tabName"></label>            
+            <label *ngFor="let ws of wizardSteps; let i = index" [ngClass]="{enable: !defaults.disabletabs && !inArray(defaults.disablesteps, i), disabled: inArray(defaults.disablesteps, i), active: ws.isActive}" (click)="setPanel(i, true)" [innerHTML]="ws.tabName"></label>
         </nav>
         <div class='wizard-content'>
             <ng-content></ng-content>
@@ -208,7 +205,7 @@ export class WizardComponent implements AfterViewInit {
         disabletabs: false,
         hiddentabs: false,
         currenttab: 0,
-        disablesteps: []
+        disablesteps: [-1]
     };
     @ContentChildren(WizardStepComponent) private wizardSteps: QueryList<WizardStepComponent>;
 

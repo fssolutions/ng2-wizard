@@ -1,1 +1,14 @@
 ng2-wizard-1.0.3.tgz
+
+.npmignore
+.gitignore
+
+*.tgz
+*.js
+*.map
+*.d.ts
+
+/**/*.js
+/**/*.map
+/**/*.d.ts
+node_modules/
