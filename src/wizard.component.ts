@@ -62,7 +62,7 @@ export class WizardStepComponent implements AfterViewInit {
  *
  * Component Wizard(step to step with tabs) for Angular 2.
  *```
- *<wizard orientation="string [landscape|portrait]" hiddenTabs="string [yes|no]" disableTabs="string [yes|no]" disableSteps="Array [number]" hiddenDisableSteps="string [yes|no]" currentStep="int [number]" (tabChange)="onYourFunction($event)">
+ *<wizard orientation="string [landscape|portrait]" hiddenTabs="string [yes|no]" disableTabs="string [yes|no]" disableSteps="Array [number]" hiddenDisableSteps="string [yes|no]" currentStep="int [number]" (stepChange)="onYourFunction($event)">
  *```
  *
  * ## Example
