@@ -2,12 +2,5 @@
 .gitignore
 
 *.tgz
-*.js
-*.map
-*.d.ts
-
-/**/*.js
-/**/*.map
-/**/*.d.ts
 
 node_modules/

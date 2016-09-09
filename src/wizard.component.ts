@@ -33,7 +33,7 @@
         }
     `],
     template: `
-        <div class="step" [hidden]="!isActive">
+        <div class="step" [hidden]="isActive == null ? false : isActive">
             <ng-content></ng-content>
         </div>
     `
@@ -57,10 +57,12 @@ export class WizardStepComponent implements AfterViewInit {
 /**
  * # WizardComponent
  * @version 1.0.3.0
+ * @author: Flávio Silva
+ * @link: [https://github.com/fssolutions/ng2-wizard](https://github.com/fssolutions/ng2-wizard)
  *
  * Component Wizard(step to step with tabs) for Angular 2.
  *```
- * <wizard orientation="string [landscape|portrait]" hiddentabs="string [yes|no]" disabletabs="string [yes|no]", disableTabsAt="Array [number]" currentstep="int [number]" (tabChange)="onYourFunction($event)">
+ * <wizard orientation="string [landscape|portrait]" hiddenTabs="string [yes|no]" disableTabs="string [yes|no]", disableSteps="Array [number]" currentStep="int [number]" (tabChange)="onYourFunction($event)">
  *```
  *
  * ## Example
@@ -76,7 +78,7 @@ export class WizardStepComponent implements AfterViewInit {
  * ### TypeScript (.ts)
  * Import WizardComponent and WizardStepComponent
  *```
- * import { WizardComponent, WizardStepComponent } from './your/path/wizard.component';
+ * import { WizardComponent, WizardStepComponent } from 'ng2-wizard';
  *```
  *
  * Add in your directives
@@ -180,8 +182,8 @@ export class WizardStepComponent implements AfterViewInit {
     encapsulation: ViewEncapsulation.None,
     template: `
     <div class='wizard' [class.wizard-portrait]="(defaults.orientation == 'portrait')">
-        <nav *ngIf="!defaults.hiddentabs">
-            <label *ngFor="let ws of wizardSteps; let i = index" [ngClass]="{enable: !defaults.disabletabs && !inArray(defaults.disablesteps, i), disabled: inArray(defaults.disablesteps, i), active: ws.isActive}" (click)="setPanel(i, true)" [innerHTML]="ws.tabName"></label>
+        <nav *ngIf="!defaults.hiddenTabs">
+            <label *ngFor="let ws of wizardSteps; let i = index" [ngClass]="{enable: !defaults.disableTabs && !inArray(defaults.disableSteps, i), disabled: inArray(defaults.disableSteps, i), active: ws.isActive}" (click)="setPanel(i, true)" [innerHTML]="ws.tabName"></label>
         </nav>
         <div class='wizard-content'>
             <ng-content></ng-content>
@@ -195,17 +197,17 @@ export class WizardComponent implements AfterViewInit {
     /**
      * @property {object}   defaults                - The default values for wizard.
      * @property {string}   defaults.orientation    - The default orientation.
-     * @property {boolean}  defaults.disabletabs    - The default disabletabs.
+     * @property {boolean}  defaults.disableTabs    - The default disableTabs.
      * @property {array}    defaults.disableTabsAt  - The default tabs disabled.
-     * @property {boolean}  defaults.hiddentabs     - The default hiddentabs.
-     * @property {number}   defaults.currentstep    - The default current step.
+     * @property {boolean}  defaults.hiddenTabs     - The default hiddenTabs.
+     * @property {number}   defaults.currentStep    - The default current step.
      */
     private defaults = {
         orientation: "landscape",
-        disabletabs: false,
-        hiddentabs: false,
-        currenttab: 0,
-        disablesteps: [-1]
+        disableTabs: false,
+        hiddenTabs: false,
+        currentTab: 0,
+        disableSteps: [-1]
     };
     @ContentChildren(WizardStepComponent) private wizardSteps: QueryList<WizardStepComponent>;
 
@@ -225,7 +227,7 @@ export class WizardComponent implements AfterViewInit {
      * ```
      *  @ViewChild(WizardComponent) mWizard: WizardComponent;
      *  toggleTabOrientation(){
-     *    console.info("hiddentabs tabs:", this.mWizard.orientation);
+     *    console.info("hiddenTabs tabs:", this.mWizard.orientation);
      *    this.mWizard.orientation = mWizard.orientation == 'portrait' ? 'landscape' : 'portrait';
      *  }
      * ```
@@ -246,7 +248,7 @@ export class WizardComponent implements AfterViewInit {
      * #### Attribute (.html)
      * Implements in your html
      * ```
-     *  <wizard disabletabs="yes|no">
+     *  <wizard disableTabs="yes|no">
      * ```
      *
      * #### TypeScript (.ts)
@@ -254,33 +256,33 @@ export class WizardComponent implements AfterViewInit {
      * ```
      *  @ViewChild(WizardComponent) mWizard: WizardComponent;
      *  toggleNavigationMode(){
-     *    console.info("is disable tabs:", this.mWizard.disabletabs);
-     *    this.mWizard.disabletabs = !this.mWizard.disabletabs;
-     *    // or mWizard.disabletabs = mWizard.disabletabs ? false : true;
-     *    console.info("is disable tabs:", this.mWizard.disabletabs);
+     *    console.info("is disable tabs:", this.mWizard.disableTabs);
+     *    this.mWizard.disableTabs = !this.mWizard.disableTabs;
+     *    // or mWizard.disableTabs = mWizard.disableTabs ? false : true;
+     *    console.info("is disable tabs:", this.mWizard.disableTabs);
      *  }
      * ```
      * @return {boolean} - Navegation tab is enabled
      */
     @Input()
-    set disabletabs(status: any) {
+    set disableTabs(status: any) {
 
         if (typeof status == "boolean") {
-            this.defaults.disabletabs = status;
+            this.defaults.disableTabs = status;
             return;
         }
 
         if (typeof status == "string") {
-            this.defaults.disabletabs = status == "yes";
+            this.defaults.disableTabs = status == "yes";
             return;
         }
     }
-    get disabletabs() {
-        return this.defaults.disabletabs;
+    get disableTabs() {
+        return this.defaults.disableTabs;
     }
 
     /**
-     * @disabletabsat {Array<number>} [1,2] - Disable spefic tabs of the navegation;
+     * @disableTabsat {Array<number>} [1,2] - Disable spefic tabs of the navegation;
      */
 
     /**
@@ -290,7 +292,7 @@ export class WizardComponent implements AfterViewInit {
      * #### Attribute (.html)
      * Implements in your html
      * ```
-     *  <wizard [disablesteps]="[2,4]">
+     *  <wizard [disableSteps]="[2,4]">
      * ```
      *
      * #### TypeScript (.ts)
@@ -298,22 +300,22 @@ export class WizardComponent implements AfterViewInit {
      * ```
      *  @ViewChild(WizardComponent) mWizard: WizardComponent;
      *  toggleNavigationMode(){
-     *    console.info("is disable steps:", this.mWizard.disablesteps);
-     *    this.mWizard.disablesteps = [2,4,5];
-     *    console.info("is disable steps:", this.mWizard.disablesteps);
+     *    console.info("is disable steps:", this.mWizard.disableSteps);
+     *    this.mWizard.disableSteps = [2,4,5];
+     *    console.info("is disable steps:", this.mWizard.disableSteps);
      *  }
      * ```
      * @return {boolean} - Navegation tab is enabled
      */
     @Input()
-    set disablesteps(indexs: Array<number>) {
+    set disableSteps(indexs: Array<number>) {
         if (typeof indexs != 'object')
             return;
 
-        this.defaults.disablesteps = indexs;
+        this.defaults.disableSteps = indexs;
     };
-    get disablesteps(): Array<number> {
-        return this.defaults.disablesteps;
+    get disableSteps(): Array<number> {
+        return this.defaults.disableSteps;
     }
 
    /**
@@ -323,7 +325,7 @@ export class WizardComponent implements AfterViewInit {
     * #### Attribute (.html)
     * Implements in your html
     * ```
-    *  <wizard hiddentabs="yes|no">
+    *  <wizard hiddenTabs="yes|no">
     * ```
     *
     * #### TypeScript (.ts)
@@ -331,28 +333,28 @@ export class WizardComponent implements AfterViewInit {
     * ```
     *  @ViewChild(WizardComponent) mWizard: WizardComponent;
     *  toggleVisibleTab(){
-    *    console.info("hiddentabs tabs:", this.mWizard.hiddentabs);
-    *    mWizard.hiddentabs = !this.mWizard.hiddentabs;
-    *    // or mWizard.hiddentabs = this.mWizard.hiddentabs ? false : true;
-    *    console.info("hiddentabs tabs:", this.mWizard.hiddentabs);
+    *    console.info("hiddenTabs tabs:", this.mWizard.hiddenTabs);
+    *    mWizard.hiddenTabs = !this.mWizard.hiddenTabs;
+    *    // or mWizard.hiddenTabs = this.mWizard.hiddenTabs ? false : true;
+    *    console.info("hiddenTabs tabs:", this.mWizard.hiddenTabs);
     *  }
     * ```
     * @return {boolean} - Navegation tab is show
     */
     @Input()
-    set hiddentabs(status: any) {
+    set hiddenTabs(status: any) {
         if (typeof status == "boolean") {
-            this.defaults.hiddentabs = status;
+            this.defaults.hiddenTabs = status;
             return;
         }
 
         if (typeof status == "string") {
-            this.defaults.hiddentabs = status == "yes";
+            this.defaults.hiddenTabs = status == "yes";
             return;
         }
     }
-    get hiddentabs() {
-        return this.hiddentabs || false;
+    get hiddenTabs() {
+        return this.defaults.hiddenTabs || false;
     }
 
     /**
@@ -363,31 +365,31 @@ export class WizardComponent implements AfterViewInit {
      * #### Attribute (.html)
      * Implements in your html
      * ```
-     *  <wizard currentstep="1">
+     *  <wizard currentStep="1">
      * ```
      *
      * #### TypeScript (.ts)
-     * Implements in your file controller [see setcurrenttab]{@link #setcurrenttab()}
+     * Implements in your file controller [see setcurrentTab]{@link #setcurrentTab()}
      * ```
      *  @ViewChild(WizardComponent) mWizard: WizardComponent;
      *  nextStep(){
-     *    console.info("Current Step:", this.mWizard.currentstep);
-     *    this.mWizard.currentstep++;
-     *    // or mWizard.currentstep = this.mWizard.currentstep + 1;
-     *    console.info("Current Step:", this.mWizard.currentstep);
+     *    console.info("Current Step:", this.mWizard.currentStep);
+     *    this.mWizard.currentStep++;
+     *    // or mWizard.currentStep = this.mWizard.currentStep + 1;
+     *    console.info("Current Step:", this.mWizard.currentStep);
      *  }
      * ```
      */
     @Input()
-    set currentstep(index: number) {
-        this.defaults.currenttab = this.getRealIndex(parseInt("" + index));
+    set currentStep(index: number) {
+        this.defaults.currentTab = this.getRealIndex(parseInt("" + index));
 
         //if change date
         if (this.wizardSteps != null && this.wizardSteps.length > 0) {
-            this.setPanel(this.defaults.currenttab);
+            this.setPanel(this.defaults.currentTab);
         }
     }
-    get currentstep(): number { return this.defaults.currenttab; }
+    get currentStep(): number { return this.defaults.currentTab; }
 
     //Event Listeners
     /**
@@ -447,10 +449,10 @@ export class WizardComponent implements AfterViewInit {
      * ```
      */
     addDisabledSteps(index: number): void {
-        if (this.inArray(this.defaults.disablesteps, index))
+        if (this.inArray(this.defaults.disableSteps, index))
             return;
 
-        this.defaults.disablesteps.push(index);
+        this.defaults.disableSteps.push(index);
     }
 
     /**
@@ -471,7 +473,7 @@ export class WizardComponent implements AfterViewInit {
         if (typeof indexs != 'object')
             return;
 
-        this.defaults.disablesteps = indexs;
+        this.defaults.disableSteps = indexs;
     }
 
     ngAfterViewInit() {
@@ -479,7 +481,7 @@ export class WizardComponent implements AfterViewInit {
             this.errorMessage('WizardComponent not found view childrens');
         }
 
-        this.setPanel(this.getRealIndex(this.defaults.currenttab));
+        this.setPanel(this.getRealIndex(this.defaults.currentTab));
     }
 
     private inArray(ar: Array<any>, key: any): boolean {
@@ -490,10 +492,10 @@ export class WizardComponent implements AfterViewInit {
         if (this.wizardSteps == null)
             return index;
 
-        let i = index > this.defaults.currenttab ? 1 : -1;
+        let i = index > this.defaults.currentTab ? 1 : -1;
         let nindex = index;
         while (
-            this.inArray(this.defaults.disablesteps, nindex)
+            this.inArray(this.defaults.disableSteps, nindex)
             && nindex >= 0
             && nindex <= this.wizardSteps.length
         ) {
@@ -504,7 +506,7 @@ export class WizardComponent implements AfterViewInit {
             return 0;
 
         if (nindex == this.wizardSteps.length)
-            return this.defaults.currenttab;
+            return this.defaults.currentTab;
 
         return nindex;
     }
@@ -517,20 +519,20 @@ export class WizardComponent implements AfterViewInit {
 
     private setPanel(index: number, isTab: boolean = false): void {
 
-        if ((this.defaults.disabletabs && isTab) || this.wizardSteps == null || this.inArray(this.defaults.disablesteps, index)) {
+        if ((this.defaults.disableTabs && isTab) || this.wizardSteps == null || this.inArray(this.defaults.disableSteps, index)) {
             return;
         }
 
         if (index >= this.wizardSteps.length)
-            this.defaults.currenttab = this.wizardSteps.length - 1;
+            this.defaults.currentTab = this.wizardSteps.length - 1;
         else if (index < 0)
-            this.defaults.currenttab = 0;
+            this.defaults.currentTab = 0;
         else
-            this.defaults.currenttab = index;
+            this.defaults.currentTab = index;
 
         this.stepChange.emit({ currentStep: index, isTab: isTab });
         this.hideAllContainer();
-        this.wizardSteps.toArray()[this.currentstep].isActive = true;
+        this.wizardSteps.toArray()[this.currentStep].isActive = true;
     }
 
     private errorMessage(m: string, o: Object = null): void {
