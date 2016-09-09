@@ -1,4 +1,4 @@
-﻿import {
+import {
     Component,
     Input, Output,
     EventEmitter,
@@ -33,7 +33,7 @@
         }
     `],
     template: `
-        <div class="step" [hidden]="isActive == null ? false : isActive">
+        <div class="step" [hidden]="!isActive">
             <ng-content></ng-content>
         </div>
     `
@@ -62,7 +62,7 @@ export class WizardStepComponent implements AfterViewInit {
  *
  * Component Wizard(step to step with tabs) for Angular 2.
  *```
- * <wizard orientation="string [landscape|portrait]" hiddenTabs="string [yes|no]" disableTabs="string [yes|no]", disableSteps="Array [number]" currentStep="int [number]" (tabChange)="onYourFunction($event)">
+ *<wizard orientation="string [landscape|portrait]" hiddenTabs="string [yes|no]" disableTabs="string [yes|no]" disableSteps="Array [number]" hiddenDisableSteps="string [yes|no]" currentStep="int [number]" (tabChange)="onYourFunction($event)">
  *```
  *
  * ## Example
@@ -182,9 +182,9 @@ export class WizardStepComponent implements AfterViewInit {
     encapsulation: ViewEncapsulation.None,
     template: `
     <div class='wizard' [class.wizard-portrait]="(defaults.orientation == 'portrait')">
-        <nav *ngIf="!defaults.hiddenTabs">
-            <label *ngFor="let ws of wizardSteps; let i = index" [ngClass]="{enable: !defaults.disableTabs && !inArray(defaults.disableSteps, i), disabled: inArray(defaults.disableSteps, i), active: ws.isActive}" (click)="setPanel(i, true)" [innerHTML]="ws.tabName"></label>
-        </nav>
+      <nav *ngIf="!defaults.hiddenTabs">
+			   <label *ngFor="let ws of wizardSteps; let i = index" [ngClass]="{enable: !defaults.disableTabs && !inArray(defaults.disableSteps, i), disabled: inArray(defaults.disableSteps, i), active: ws.isActive, hidden: (defaults.hiddenDisableSteps && inArray(defaults.disableSteps, i))}" (click)="setPanel(i, true)" [innerHTML]="ws.tabName"></label>
+		  </nav>
         <div class='wizard-content'>
             <ng-content></ng-content>
         </div>
@@ -195,19 +195,21 @@ export class WizardComponent implements AfterViewInit {
     private version: string = "1.0.3.0";
 
     /**
-     * @property {object}   defaults                - The default values for wizard.
-     * @property {string}   defaults.orientation    - The default orientation.
-     * @property {boolean}  defaults.disableTabs    - The default disableTabs.
-     * @property {array}    defaults.disableTabsAt  - The default tabs disabled.
-     * @property {boolean}  defaults.hiddenTabs     - The default hiddenTabs.
-     * @property {number}   defaults.currentStep    - The default current step.
+     * @property {object}   defaults                       - The default values for wizard.
+     * @property {string}   defaults.orientation           - The default orientation.
+     * @property {boolean}  defaults.disableTabs           - The default disableTabs.
+     * @property {array}    defaults.disableTabsAt         - The default tabs disabled.
+     * @property {boolean}  defaults.hiddenTabs            - The default hiddenTabs.
+     * @property {number}   defaults.currentStep           - The default current step.
+     * @property {number}   defaults.hiddenDisableSteps    - The default hiddenDisableSteps.
      */
     private defaults = {
         orientation: "landscape",
         disableTabs: false,
         hiddenTabs: false,
         currentTab: 0,
-        disableSteps: [-1]
+        disableSteps: [-1],
+        hiddenDisableSteps: false
     };
     @ContentChildren(WizardStepComponent) private wizardSteps: QueryList<WizardStepComponent>;
 
@@ -282,8 +284,43 @@ export class WizardComponent implements AfterViewInit {
     }
 
     /**
-     * @disableTabsat {Array<number>} [1,2] - Disable spefic tabs of the navegation;
+     * Hidden tabs navegation;
+     *
+     * ### Example
+     * #### Attribute (.html)
+     * Implements in your html
+     * ```
+     *  <wizard hiddenTabs="yes|no">
+     * ```
+     *
+     * #### TypeScript (.ts)
+     * Implements in your file controller
+     * ```
+     *  @ViewChild(WizardComponent) mWizard: WizardComponent;
+     *  toggleVisibleTab(){
+     *    console.info("hiddenTabs tabs:", this.mWizard.hiddenTabs);
+     *    mWizard.hiddenTabs = !this.mWizard.hiddenTabs;
+     *    // or mWizard.hiddenTabs = this.mWizard.hiddenTabs ? false : true;
+     *    console.info("hiddenTabs tabs:", this.mWizard.hiddenTabs);
+     *  }
+     * ```
+     * @return {boolean} - Navegation tab is show
      */
+     @Input()
+     set hiddenTabs(status: any) {
+         if (typeof status == "boolean") {
+             this.defaults.hiddenTabs = status;
+             return;
+         }
+
+         if (typeof status == "string") {
+             this.defaults.hiddenTabs = status == "yes";
+             return;
+         }
+     }
+     get hiddenTabs() {
+         return this.defaults.hiddenTabs || false;
+     }
 
     /**
      * Disable specific tabs navegation;
@@ -318,43 +355,42 @@ export class WizardComponent implements AfterViewInit {
         return this.defaults.disableSteps;
     }
 
-   /**
-    * Hidden tabs navegation;
-    *
-    * ### Example
-    * #### Attribute (.html)
-    * Implements in your html
-    * ```
-    *  <wizard hiddenTabs="yes|no">
-    * ```
-    *
-    * #### TypeScript (.ts)
-    * Implements in your file controller
-    * ```
-    *  @ViewChild(WizardComponent) mWizard: WizardComponent;
-    *  toggleVisibleTab(){
-    *    console.info("hiddenTabs tabs:", this.mWizard.hiddenTabs);
-    *    mWizard.hiddenTabs = !this.mWizard.hiddenTabs;
-    *    // or mWizard.hiddenTabs = this.mWizard.hiddenTabs ? false : true;
-    *    console.info("hiddenTabs tabs:", this.mWizard.hiddenTabs);
-    *  }
-    * ```
-    * @return {boolean} - Navegation tab is show
-    */
+    /**
+     * Hide navigation when step disabled;
+     *
+     * ### Example
+     * #### Attribute (.html)
+     * Implements in your html
+     * ```
+     *  <wizard [hiddenDisableSteps]="[yes|no|true|false]">
+     * ```
+     *
+     * #### TypeScript (.ts)
+     * Implements in your file controller
+     * ```
+     *  @ViewChild(WizardComponent) mWizard: WizardComponent;
+     *  toggleNavigationMode(){
+     *    console.info("show steps:", this.mWizard.hiddenDisableSteps);
+     *    this.mWizard.hiddenDisableSteps = true;
+     *    console.info("show steps:", this.mWizard.hiddenDisableSteps);
+     *  }
+     * ```
+     * @return {boolean} - Show tab when disabled
+     */
     @Input()
-    set hiddenTabs(status: any) {
-        if (typeof status == "boolean") {
-            this.defaults.hiddenTabs = status;
-            return;
-        }
+    set hiddenDisableSteps(status: any) {
+      if (typeof status == "boolean") {
+          this.defaults.hiddenDisableSteps = status;
+          return;
+      }
 
-        if (typeof status == "string") {
-            this.defaults.hiddenTabs = status == "yes";
-            return;
-        }
-    }
-    get hiddenTabs() {
-        return this.defaults.hiddenTabs || false;
+      if (typeof status == "string") {
+          this.defaults.hiddenDisableSteps = status == "yes";
+          return;
+      }
+    };
+    get hiddenDisableSteps() {
+        return this.defaults.hiddenDisableSteps;
     }
 
     /**
