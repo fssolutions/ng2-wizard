@@ -3,4 +3,11 @@
 
 *.tgz
 
+typings/
+tsconfig.json
+typings.json
+
+/**/*.ts
+!/**/*.d.ts
+
 node_modules/
