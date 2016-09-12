@@ -1,0 +1,8 @@
+<div class='wizard' [class.wizard-portrait]="(defaults.orientation == 'portrait')">
+	<nav *ngIf="!defaults.hiddenTabs">
+		 <label *ngFor="let ws of wizardSteps; let i = index" [ngClass]="{enable: !defaults.disableTabs && !inArray(defaults.disableSteps, i), disabled: inArray(defaults.disableSteps, i), active: ws.isActive, hidden: (defaults.hiddenDisableSteps && inArray(defaults.disableSteps, i))}" (click)="setPanel(i, true)" [innerHTML]="ws.tabName"></label>
+	</nav>
+		<div class='wizard-content'>
+				<ng-content></ng-content>
+		</div>
+</div>

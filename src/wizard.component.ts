@@ -1,59 +1,6 @@
-import {
-    Component,
-    Input, Output,
-    EventEmitter,
-    ElementRef, ViewContainerRef, ViewEncapsulation,
-    ContentChildren, QueryList, AfterViewInit, ViewChild
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, AfterViewInit } from '@angular/core';
 
-/**
- * # WizardStepComponent
- *
- * Childrens component of WizardComponent
- *
- *```
- * <wizard-step>
- *  <tab>Title of your tab</tab>
- *  Hello World - your content
- * </wizard-step>
- *```
- *
- * ## Atention!!
- * The tag &lt;tab&gt; is o obrigatory
- *```
- *  <tab>Title of your tab</tab>
- *```
- */
-@Component({
-    selector: 'wizard-step',
-    styles: [`
-        .step {
-            padding: 15px;
-            padding-top: 20px;
-        }
-    `],
-    template: `
-        <div class="step" [hidden]="!isActive">
-            <ng-content></ng-content>
-        </div>
-    `
-})
-export class WizardStepComponent implements AfterViewInit {
-    private tabName: string;
-    public isActive: boolean = false;
-
-    constructor(private elementRef: ElementRef) { }
-
-    ngAfterViewInit() {
-        let tab = this.elementRef.nativeElement.getElementsByTagName("tab");
-        if (tab != null && tab.length) {
-            tab[0].style.display = 'none';
-            this.tabName = tab[0].innerHTML;
-        } else
-            throw new Error('WizardStepComponent: TagName TAB was not found in step');
-    }
-}
-
+import { WizardStepComponent } from './wizard-step.component'
 /**
  * # WizardComponent
  * @version 1.0.3.0
@@ -88,107 +35,10 @@ export class WizardStepComponent implements AfterViewInit {
  */
 @Component({
     selector: 'wizard',
-    styles: [`
-		.wizard {
-			display: block;
-		}
-
-        .wizard-portrait .step {
-            padding-top: 0px !important;
-        }
-
-		.wizard nav {
-			display: -webkit-flex;
-			display: flex;
-			border-bottom: 1px solid #ddd;
-		}
-
-        .wizard nav.hidden {
-            display: none !important;
-        }
-
-		.wizard nav label {
-			padding-bottom: 5px;
-			padding-left: 15px;
-			padding-right: 15px;
-			padding-top: 5px;
-			margin-bottom: 0px;
-			position: relative;
-			font-weight: normal !important;
-			border-bottom: 6px solid transparent;
-            border-top: 6px solid transparent;
-            overflow-x: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-		}
-
-		.wizard nav label.active,
-		.wizard nav label.enable:hover {
-			background-color: rgb(245, 245, 245);
-			border-bottom: 6px solid rgb(82, 145, 245);
-			cursor: pointer;
-		}
-
-        .wizard nav label.disabled {
-            cursor: not-allowed;
-        }
-
-		.wizard-portrait {
-			display: -webkit-flex;
-			display: flex;
-		}
-
-		.wizard-portrait nav {
-			display: inline-block;
-			-webkit-flex: 1;
-			-ms-flex: 1;
-			flex: 1;
-			overflow: hidden;
-			border-bottom: none;
-		}
-
-		.wizard-portrait > div {
-			-webkit-flex: 4;
-			-ms-flex: 4;
-			flex: 4;
-		}
-
-		.wizard-portrait nav label {
-			display: block;
-			border-left: 6px solid transparent !important;
-		}
-
-		.wizard-portrait nav label.active,
-		.wizard-portrait nav label.enable:hover {
-			background-color: rgb(245, 245, 245);
-			border-bottom-color: transparent !important;
-			border-left: 6px solid rgb(82, 145, 245) !important;
-			cursor: pointer;
-		}
-
-		.wizard-portrait nav label:hover::after,
-		.wizard-portrait nav label.active::after {
-			display: block;
-			width: 20px;
-			height: 20px;
-			background: white;
-			content: ' ';
-			position: absolute;
-			right: -10px;
-			top: 5px;
-			-webkit-transform: rotate(45deg);
-		}
-    `],
-    encapsulation: ViewEncapsulation.None,
-    template: `
-    <div class='wizard' [class.wizard-portrait]="(defaults.orientation == 'portrait')">
-      <nav *ngIf="!defaults.hiddenTabs">
-			   <label *ngFor="let ws of wizardSteps; let i = index" [ngClass]="{enable: !defaults.disableTabs && !inArray(defaults.disableSteps, i), disabled: inArray(defaults.disableSteps, i), active: ws.isActive, hidden: (defaults.hiddenDisableSteps && inArray(defaults.disableSteps, i))}" (click)="setPanel(i, true)" [innerHTML]="ws.tabName"></label>
-		  </nav>
-        <div class='wizard-content'>
-            <ng-content></ng-content>
-        </div>
-    </div>`
+    styleUrls: [
+		    'wizard.component.css'
+    ],
+    templateUrl: 'wizard.component.html'
 })
 
 export class WizardComponent implements AfterViewInit {
