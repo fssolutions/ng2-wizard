@@ -19,6 +19,7 @@ import { Component, AfterViewInit, ElementRef } from '@angular/core';
  *```
  */
 @Component({
+    moduleId: module.id,
     selector: 'wizard-step',
     styleUrls: [
 			'wizard-step.component.css'
