@@ -331,7 +331,7 @@ export class WizardComponent implements AfterViewInit {
      * ```
      *  @ViewChild(WizardComponent) mWizard: WizardComponent;
      *  denyStep(){
-     *    this.mWizard.addDisabledStepsAt(1);
+     *    this.mWizard.addDisabledSteps(1);
      *  }
      * ```
      */
@@ -340,6 +340,29 @@ export class WizardComponent implements AfterViewInit {
             return;
 
         this.defaults.disableSteps.push(index);
+    }
+
+    /**
+     * Remove disable specific step
+     * @params {number} index - Remove index to disable tab
+     *
+     * ### Example
+     * #### TypeScript (.ts)
+     * Implements in your file controller
+     * ```
+     *  @ViewChild(WizardComponent) mWizard: WizardComponent;
+     *  allowStep(){
+     *    this.mWizard.removeDisabledSteps(1);
+     *  }
+     * ```
+     */
+    removeDisabledSteps(index: number): void {
+        if (this.inArray(this.defaults.disableSteps, index))
+            return;
+
+        let i = this.defaults.disableSteps.indexOf(index);
+        if(i > -1)
+          this.defaults.disableSteps.splice(i, 1);
     }
 
     /**

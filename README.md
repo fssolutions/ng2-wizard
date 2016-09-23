@@ -7,7 +7,7 @@
 
 ## Installation
 
-TypeDoc runs on angular 2 and is available as an NPM package. You can install ng2-wizard
+Wizard runs on angular 2 and is available as an NPM package. You can install ng2-wizard
 in your project's directory as usual:
 
 ```bash
