@@ -1,9 +1,9 @@
-import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 
 import { WizardStepComponent } from './wizard-step.component'
 /**
  * # WizardComponent
- * @version 1.0.3.0
+ * @version 2.0.0
  * @author: Flávio Silva
  * @link: [https://github.com/fssolutions/ng2-wizard](https://github.com/fssolutions/ng2-wizard)
  *
@@ -17,7 +17,7 @@ import { WizardStepComponent } from './wizard-step.component'
  *```
  * <wizard orientation="portrait">
  *  <wizard-step>
- *    <tab>Title of first tab</tab>
+ *    <wizard-step-tab>Title of first tab</wizard-step-tab>
  *    Hello World
  *  </wizard-step>
  * </wizard>
@@ -37,12 +37,12 @@ import { WizardStepComponent } from './wizard-step.component'
     moduleId: module.id,
     selector: 'wizard',
     styleUrls: [
-		    'wizard.component.css'
+		    './wizard.component.css'
     ],
-    templateUrl: 'wizard.component.html'
+    templateUrl: './wizard.component.html'
 })
 
-export class WizardComponent implements AfterViewInit {
+export class WizardComponent implements AfterContentInit {
     private version: string = "1.0.3.0";
 
     /**
@@ -386,7 +386,7 @@ export class WizardComponent implements AfterViewInit {
         this.defaults.disableSteps = indexs;
     }
 
-    ngAfterViewInit() {
+    ngAfterContentInit() {
         if (this.wizardSteps.length == 0) {
             this.errorMessage('WizardComponent not found view childrens');
         }

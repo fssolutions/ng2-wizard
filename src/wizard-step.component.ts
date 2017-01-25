@@ -1,4 +1,7 @@
-import { Component, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, AfterContentInit, ElementRef, ContentChild } from '@angular/core';
+import { SafeHtml } from '@angular/platform-browser';
+
+import { WizardStepTabComponent } from './wizard-step-tab.component';
 
 /**
  * # WizardStepComponent
@@ -7,38 +10,40 @@ import { Component, AfterViewInit, ElementRef } from '@angular/core';
  *
  *```
  * <wizard-step>
- *  <tab>Title of your tab</tab>
+ *  <wizard-step-tab>Title of your tab</wizard-step-tab>
  *  Hello World - your content
  * </wizard-step>
  *```
  *
  * ## Atention!!
- * The tag &lt;tab&gt; is o obrigatory
+ * The tag &lt;wizard-step-tab&gt; is o obrigatory
  *```
- *  <tab>Title of your tab</tab>
+ *  <wizard-step-tab>Title of your tab</wizard-step-tab>
  *```
  */
 @Component({
     moduleId: module.id,
     selector: 'wizard-step',
     styleUrls: [
-			'wizard-step.component.css'
+			'./wizard-step.component.css'
 		],
-		templateUrl: 'wizard-step.component.html'
+		templateUrl: './wizard-step.component.html'
 })
 
-export class WizardStepComponent implements AfterViewInit {
-    private tabName: string;
+export class WizardStepComponent implements AfterContentInit {
+    private tabName: SafeHtml;
+
+    @ContentChild(WizardStepTabComponent) private wizardStepTabComponent: WizardStepTabComponent;
+
     public isActive: boolean = false;
 
     constructor(private elementRef: ElementRef) { }
 
-    ngAfterViewInit() {
-        let tab = this.elementRef.nativeElement.getElementsByTagName("tab");
-        if (tab != null && tab.length) {
-            tab[0].style.display = 'none';
-            this.tabName = tab[0].innerHTML;
-        } else
-            throw new Error('WizardStepComponent: TagName TAB was not found in step');
+    ngAfterContentInit() {
+      if(this.wizardStepTabComponent){
+        this.wizardStepTabComponent.setDisplay('none');
+        this.tabName = this.wizardStepTabComponent.getHTML();
+      }else
+          throw new Error('WizardStepComponent: TagName "wizard-step-tab" was not found in step');
     }
 }

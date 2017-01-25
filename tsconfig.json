@@ -10,7 +10,6 @@
         "moduleResolution": "node"
     },
     "files": [
-        "index.ts",
-        "typings.d.ts"
+        "index.ts"
     ]
 }

@@ -1,7 +1,7 @@
  [![npm version](https://badge.fury.io/js/ng2-wizard.svg)](https://badge.fury.io/js/ng2-wizard)
 
 # WizardComponent
-@version 1.0.3.0 <br>
+@version 2.0.2 <br>
 @author: Flávio Silva <br>
 @link: [https://github.com/fssolutions/ng2-wizard](https://github.com/fssolutions/ng2-wizard)
 
@@ -24,7 +24,7 @@ Component Wizard(step to step with tabs) for Angular 2.
 ```
  <wizard orientation="portrait">
   <wizard-step>
-    <tab>Title of first tab</tab>
+    <wizard-step-tab>Title of first tab</wizard-step-tab>
     Hello World
   </wizard-step>
  </wizard>
@@ -32,12 +32,16 @@ Component Wizard(step to step with tabs) for Angular 2.
 ### TypeScript (.ts)
 Import WizardComponent and WizardStepComponent
 ```
- import { WizardComponent, WizardStepComponent } from 'ng2-wizard';
+ import { Ng2WizardModule } from 'ng2-wizard';
 ```
 
-Add in your directives
+Add in your module
 ```
- directives: [WizardStepComponent, WizardComponent]
+ @NgModule({   
+   imports: [
+    Ng2WizardModule,
+   ]
+ })
 ```
 
 ## Contributing
