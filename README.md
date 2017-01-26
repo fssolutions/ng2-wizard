@@ -1,7 +1,7 @@
  [![npm version](https://badge.fury.io/js/ng2-wizard.svg)](https://badge.fury.io/js/ng2-wizard)
 
 # WizardComponent
-@version 2.0.2 <br>
+@version 2.0.3 <br>
 @author: Flávio Silva <br>
 @link: [https://github.com/fssolutions/ng2-wizard](https://github.com/fssolutions/ng2-wizard)
 
