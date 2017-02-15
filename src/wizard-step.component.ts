@@ -22,7 +22,6 @@ import { WizardStepTabComponent } from './wizard-step-tab.component';
  *```
  */
 @Component({
-    moduleId: module.id,
     selector: 'wizard-step',
     styleUrls: [
 			'./wizard-step.component.css'

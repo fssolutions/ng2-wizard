@@ -34,7 +34,6 @@ import { WizardStepComponent } from './wizard-step.component'
  *```
  */
 @Component({
-    moduleId: module.id,
     selector: 'wizard',
     styleUrls: [
 		    './wizard.component.css'

@@ -3,7 +3,6 @@ import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
-    moduleId: module.id,
     selector: 'wizard-step-tab',
 		template: '<ng-content></ng-content>'
 })
