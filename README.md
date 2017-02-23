@@ -16,8 +16,24 @@ $ npm install --save ng2-wizard
 
 Component Wizard(step to step with tabs) for Angular 2.
 ```
- <wizard orientation="string [landscape|portrait]" hiddenTabs="string [yes|no]" disableTabs="string [yes|no]" disableSteps="Array [number]" hiddenDisableSteps="string [yes|no]" currentStep="int [number]" (stepChange)="onYourFunction($event)">
+ <wizard orientation="string [landscape|portrait]" hiddenTabs="string [yes|no]" disableTabs="string [yes|no]" disableSteps="Array [number]" hiddenDisableSteps="string [yes|no]" currentStep="int [number]" (stepChange)="onYourFunction($event) sumStep="int [number]">
 ```
+## Parameters
+
+### sumStep
+
+This parameter is used for dividing the tab into average width of parent view for few tabs.
+
+If this parameter is set, the width of the label of tab will be determined by this parameter.
+
+For example:
+
+sumStep=3
+the label width will be 33.333%
+
+sumStep=4
+the label width will be 25%
+
 
 ## Example
 ### Template (.html)
