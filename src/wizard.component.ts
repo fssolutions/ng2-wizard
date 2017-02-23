@@ -59,8 +59,12 @@ export class WizardComponent implements AfterContentInit {
         hiddenTabs: false,
         currentTab: 0,
         disableSteps: [-1],
-        hiddenDisableSteps: false
+        hiddenDisableSteps: false,
+        sumTabs: 0
     };
+
+    public tabWidth = 100;
+    public tabWidthString:string = "100%";
     @ContentChildren(WizardStepComponent) private wizardSteps: QueryList<WizardStepComponent>;
 
     /**
@@ -276,6 +280,29 @@ export class WizardComponent implements AfterContentInit {
         }
     }
     get currentStep(): number { return this.defaults.currentTab; }
+
+
+    /**
+     * Set the sum of tab
+     *
+     * If this parameter is set, the length of the tab will be computed by this parameter
+     *
+     * For example:
+     * sum = 5
+     * the width of the tab will be 20%
+     *
+     * @param sum
+     */
+    @Input()
+    set sumStep(sum: number) {
+        this.defaults.sumTabs = this.getRealIndex(parseInt("" + sum));
+        this.tabWidth = this.tabWidth / sum;
+        this.tabWidthString =  this.tabWidth.toString() + "%";
+    }
+
+    get sumStep(): number {
+        return this.defaults.sumTabs;
+    }
 
     //Event Listeners
     /**
