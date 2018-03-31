@@ -1,6 +1,6 @@
 {
   "name": "ng2-wizard",
-  "version": "2.0.4",
+  "version": "2.0.7",
   "description": "Component wizard to angular 2",
   "main": "dist/index.js",
   "dependencies": {
