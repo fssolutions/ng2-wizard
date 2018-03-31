@@ -53,7 +53,7 @@ export class WizardComponent implements AfterContentInit {
      * @property {number}   defaults.currentStep           - The default current step.
      * @property {number}   defaults.hiddenDisableSteps    - The default hiddenDisableSteps.
      */
-    private defaults = {
+    public defaults = {
         orientation: "landscape",
         disableTabs: false,
         hiddenTabs: false,
@@ -61,7 +61,7 @@ export class WizardComponent implements AfterContentInit {
         disableSteps: [-1],
         hiddenDisableSteps: false
     };
-    @ContentChildren(WizardStepComponent) private wizardSteps: QueryList<WizardStepComponent>;
+    @ContentChildren(WizardStepComponent) public wizardSteps: QueryList<WizardStepComponent>;
 
     /**
      * Set or get orientation of the navegation tab position
@@ -409,7 +409,7 @@ export class WizardComponent implements AfterContentInit {
             && nindex <= this.wizardSteps.length
         ) {
             nindex += i;
-        };
+        }
 
         if (nindex == 0)
             return 0;
