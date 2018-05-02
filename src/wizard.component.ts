@@ -393,10 +393,6 @@ export class WizardComponent implements AfterContentInit {
         this.setPanel(this.getRealIndex(this.defaults.currentTab));
     }
 
-    private inArray(ar: Array<any>, key: any): boolean {
-        return !!ar.find(x => x == key);
-    }
-
     private getRealIndex(index: number) {
         if (this.wizardSteps == null)
             return index;
@@ -426,7 +422,24 @@ export class WizardComponent implements AfterContentInit {
         });
     }
 
-    private setPanel(index: number, isTab: boolean = false): void {
+    private errorMessage(m: string, o: Object = null): void {
+        switch (arguments.length) {
+            case 1:
+                console.error('WizardComponet Error:', { Message: m, Version: this.version });
+                break;
+
+            case 2:
+                console.error('WizardComponet Error:', { Message: m, Object: o, Version: this.version });
+                break;
+        }
+    }
+
+
+    public inArray(ar: Array<any>, key: any): boolean {
+        return !!ar.find(x => x == key);
+    }    
+
+    public setPanel(index: number, isTab: boolean = false): void {
 
         if ((this.defaults.disableTabs && isTab) || this.wizardSteps == null || this.inArray(this.defaults.disableSteps, index)) {
             return;
@@ -442,17 +455,5 @@ export class WizardComponent implements AfterContentInit {
         this.stepChange.emit({ currentStep: index, isTab: isTab });
         this.hideAllContainer();
         this.wizardSteps.toArray()[this.currentStep].isActive = true;
-    }
-
-    private errorMessage(m: string, o: Object = null): void {
-        switch (arguments.length) {
-            case 1:
-                console.error('WizardComponet Error:', { Message: m, Version: this.version });
-                break;
-
-            case 2:
-                console.error('WizardComponet Error:', { Message: m, Object: o, Version: this.version });
-                break;
-        }
-    }
+    }    
 }

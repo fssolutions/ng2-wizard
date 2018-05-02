@@ -1,5 +1,5 @@
-export * from './src/wizard.component';
-export * from './src/wizard-step.component';
-export * from './src/wizard-step-tab.component';
+export * from './dist/wizard.component';
+export * from './dist/wizard-step.component';
+export * from './dist/wizard-step-tab.component';
 
-export * from './src/ng2-wizard.module';
+export * from './dist/ng2-wizard.module';

@@ -5,8 +5,10 @@
 *.js
 *.map
 *.d.ts
+*.metadata.json
 
 /**/*.js
 /**/*.map
 /**/*.d.ts
 node_modules/
+dist/

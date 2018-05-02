@@ -5,9 +5,13 @@
 
 typings/
 tsconfig.json
+tsconfig-aot.json
 typings.json
 
 /**/*.ts
 !/**/*.d.ts
+
+src/
+gulpfile.js
 
 node_modules/
